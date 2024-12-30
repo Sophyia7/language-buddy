@@ -42,4 +42,4 @@ node_modules/
 tailwind.config.js
 postcss.config.js
 theme/static_src/  # Add this line to ignore the Tailwind theme directory
-
+static_src
