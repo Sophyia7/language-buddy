@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto flex">
+    <!-- Sidebar for previous conversations -->
+    <div class="w-1/4 bg-gray-100 p-4 rounded-lg shadow-md">
+        <h2 class="text-xl font-bold mb-4">Previous Conversations</h2>
+        <ul>
+            {% for conversation in conversations %}
+                <li class="mb-2">
+                    <a href="{% url 'chat' conversation.id %}" class="block p-2 bg-white rounded hover:bg-gray-200">
+                        {{ conversation.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Main chat area -->
+    <div class="w-3/4 bg-white p-6 rounded-lg shadow-md ml-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Welcome to Language Buddy</h1>
+        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+            {% if request.user_authenticated %}
+                <p class="text-gray-600 mb-4">Welcome!</p>
+                <a href="#" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                    Start Chatting
+                </a>
+            {% else %}
+                <p class="text-gray-600 mb-4">Start learning a new language today with our AI-powered conversation partner!</p>
+                <a href="{% url 'signup' %}" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                    Sign Up to Begin
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Chat messages -->
+        <div class="chat-messages bg-white p-4 rounded-lg shadow-inner h-64 overflow-y-auto">
+            {% for message in messages %}
+                <div class="mb-4">
+                    <div class="font-bold">{{ message.sender }}</div>
+                    <div class="text-gray-700">{{ message.text }}</div>
+                    <div class="text-xs text-gray-500">{{ message.timestamp }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Message input -->
+        {% if request.user_authenticated %}
+            <form method="post" action="{% url 'send_message' %}" class="mt-4">
+                {% csrf_token %}
+                <textarea name="message" rows="3" class="w-full p-2 border rounded-lg" placeholder="Type your message..."></textarea>
+                <button type="submit" class="block w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2">
+                    Send
+                </button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
