@@ -1,59 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto flex">
-    <!-- Sidebar for previous conversations -->
-    <div class="w-1/4 bg-gray-100 p-4 rounded-lg shadow-md">
-        <h2 class="text-xl font-bold mb-4">Previous Conversations</h2>
-        <ul>
-            {% for conversation in conversations %}
-                <li class="mb-2">
-                    <a href="{% url 'chat' conversation.id %}" class="block p-2 bg-white rounded hover:bg-gray-200">
-                        {{ conversation.title }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+<div class="max-w-6xl mx-auto">
+    <!-- Hero Section -->
+    <div class="text-center py-12">
+        <h1 class="text-4xl font-bold mb-4">Learn Languages with AI</h1>
+        <p class="text-xl text-gray-600 mb-8">Practice conversations in any language with your personal AI language partner</p>
+        {% if request.user_authenticated %}
+            <a href="{% url 'signup' %}" class="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition">
+                Start Chatting
+            </a>
+        {% else %}
+            <a href="{% url 'signup' %}" class="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition">
+                Get Started Free
+            </a>
+        {% endif %}
     </div>
 
-    <!-- Main chat area -->
-    <div class="w-3/4 bg-white p-6 rounded-lg shadow-md ml-4">
-        <h1 class="text-3xl font-bold text-center mb-8">Welcome to Language Buddy</h1>
-        <div class="bg-gray-50 p-4 rounded-lg mb-4">
-            {% if request.user_authenticated %}
-                <p class="text-gray-600 mb-4">Welcome!</p>
-                <a href="#" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                    Start Chatting
-                </a>
-            {% else %}
-                <p class="text-gray-600 mb-4">Start learning a new language today with our AI-powered conversation partner!</p>
-                <a href="{% url 'signup' %}" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                    Sign Up to Begin
-                </a>
-            {% endif %}
+    <!-- Features Section -->
+    <div class="grid md:grid-cols-3 gap-8 py-12">
+        <div class="text-center p-6 bg-white rounded-lg shadow-md">
+            <div class="text-3xl mb-4">🗣️</div>
+            <h3 class="text-xl font-semibold mb-2">Natural Conversations</h3>
+            <p class="text-gray-600">Practice real-world conversations with our AI language partner</p>
         </div>
+        <div class="text-center p-6 bg-white rounded-lg shadow-md">
+            <div class="text-3xl mb-4">📚</div>
+            <h3 class="text-xl font-semibold mb-2">Multiple Languages</h3>
+            <p class="text-gray-600">Learn and practice in various languages at your own pace</p>
+        </div>
+        <div class="text-center p-6 bg-white rounded-lg shadow-md">
+            <div class="text-3xl mb-4">📈</div>
+            <h3 class="text-xl font-semibold mb-2">Track Progress</h3>
+            <p class="text-gray-600">Monitor your improvement with detailed feedback</p>
+        </div>
+    </div>
 
-        <!-- Chat messages -->
-        <div class="chat-messages bg-white p-4 rounded-lg shadow-inner h-64 overflow-y-auto">
-            {% for message in messages %}
-                <div class="mb-4">
-                    <div class="font-bold">{{ message.sender }}</div>
-                    <div class="text-gray-700">{{ message.text }}</div>
-                    <div class="text-xs text-gray-500">{{ message.timestamp }}</div>
+    <!-- Testimonials Section -->
+    <div class="py-12">
+        <h2 class="text-3xl font-bold text-center mb-8">What Our Users Say</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600">"I've been using this app for a few weeks now and I can already see a huge improvement in my speaking skills."</p>
+                <div class="mt-4">
+                    <p class="font-semibold">Sarah M.</p>
+                    <p class="text-sm text-gray-500">Learning Spanish</p>
                 </div>
-            {% endfor %}
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600">"The AI conversation partner feels incredibly natural. It's like chatting with a native speaker!"</p>
+                <div class="mt-4">
+                    <p class="font-semibold">James L.</p>
+                    <p class="text-sm text-gray-500">Learning French</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600">"Perfect for busy professionals. I can practice whenever I have time, and the progress tracking keeps me motivated."</p>
+                <div class="mt-4">
+                    <p class="font-semibold">Maria R.</p>
+                    <p class="text-sm text-gray-500">Learning English</p>
+                </div>
+            </div>
         </div>
-
-        <!-- Message input -->
-        {% if request.user_authenticated %}
-            <form method="post" action="{% url 'send_message' %}" class="mt-4">
-                {% csrf_token %}
-                <textarea name="message" rows="3" class="w-full p-2 border rounded-lg" placeholder="Type your message..."></textarea>
-                <button type="submit" class="block w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2">
-                    Send
-                </button>
-            </form>
-        {% endif %}
     </div>
 </div>
 {% endblock %}
