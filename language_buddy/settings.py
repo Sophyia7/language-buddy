@@ -41,9 +41,15 @@ INSTALLED_APPS = [
 
     'tailwind',
     'theme',
+
+    # 'auth.models.UserProfile',
+
+    
 ]
 
 TAILWIND_APP_NAME = 'theme'
+
+# AUTH_USER_MODEL = 'auth.User'  # Use default Django User model
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,7 +141,9 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    # Add other backends if needed
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     # Add other backends if needed
+# ]
+
+LOGIN_URL = 'login'  
