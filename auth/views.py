@@ -73,7 +73,7 @@ def login_view(request):
                 request.session['email'] = form.cleaned_data['email']
                 
                 messages.success(request, 'Login successful!')
-                return redirect('chats:chat')
+                return redirect('home')
 
             except AppwriteException as e:
                 messages.error(request, str(e))            
