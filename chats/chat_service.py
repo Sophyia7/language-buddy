@@ -13,7 +13,7 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 # The service that handles the AI interation with users
 class ChatService:
     def __init__(self):
-        genai.configure(api_key=api_key)
+        genai.configure(api_key=GEMINI_API_KEY)
         print(GEMINI_API_KEY)
 
         # Initialize model 
