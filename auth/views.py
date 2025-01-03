@@ -10,6 +10,7 @@ from auth.forms import SignUpForm, LoginForm, UserProfileForm
 from auth.appwrite_config import account_service, database_service, DATABASE_ID, PROFILES_COLLECTION_ID
 # from auth.models import UserProfile
 
+
 from appwrite.exception import AppwriteException
 from appwrite.query import Query
 from appwrite.id import ID
@@ -110,7 +111,8 @@ def logout_view(request):
 
 
 def home_view(request):
-    template_name = 'core/home.html'
+    # template_name = 'core/home.html'
+    template_name = 'chats/conversation.html'
     return render(request, template_name)
 
 
