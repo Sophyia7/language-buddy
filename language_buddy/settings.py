@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
 
+    'chats',
+
     # 'auth.models.UserProfile',
 
     
