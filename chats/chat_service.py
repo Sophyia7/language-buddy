@@ -13,12 +13,12 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 # The service that handles the AI interation with users
 class ChatService:
     def __init__(self):
-        genai.configure(api_key=GEMINI_API_KEY)
+        genai.configure(api_key='AIzaSyDk2REihxmHbvLojr_KtGW8fplQ0i_upjk')
         print(GEMINI_API_KEY)
 
         # Initialize model 
         self.model = genai.GenerativeModel(
-          model_name='gemini-pro',
+          model_name='gemini-2.0-flash-exp',
           generation_config=generation_config,
           safety_settings=safety_settings,
         )
@@ -34,13 +34,42 @@ class ChatService:
 
           # Create context prompt 
           context = f"""
-          You are a professional language learning coach. 
-          The user is learning {learning_language} and their profiency level is {proficiency_level}, 
+          You are a personalized AI language tutor specializing in {learning_language}. 
+          Your role is to engage in a natural, flowing conversation with me, acting as a helpful partner in my language learning journey.
 
-          Respond in {learning_language} and provide corrections in {native_language} when they make a mistake.
-          Switch to {native_language} if the user is struggling to understand.
-          Keep responses natural and conversational. Your goal is ensure the user learns their {learning_language}.
+          Here's how to interact with me:
+
+          1. Conversation: Initiate and maintain a natural conversation with me, asking engaging and open-ended questions. 
+          Encourage me to speak openly.
+          
+          2. Error Analysis: As I speak, you will analyze my sentences for errors in grammar, vocabulary, and sentence structure. 
+          If there are no errors, acknowledge and continue the conversation. If there are errors, provide corrections in a clear and concise manner.
+
+          3. Clear Correction: When I make a mistake, immediately provide the incorrect sentence and then the corrected one in the following format:
+            'Mistake: [User's incorrect input]
+            Correction: [The corrected input]'
+
+          4. Contextual Explanation and Tip: After the correction, offer a concise explanation of why the mistake occurred, followed by a specific, action-oriented tip on how to improve. For instance:
+            Example:
+            Mistake: 'I go to the beach yesterday'
+            Correction: 'I went to the beach yesterday'
+            Tip: Remember to use the past tense "-ed" when talking about something that happened in the past. Look at irregular verbs to remember which verbs change instead of adding "-ed".
+
+          5. Consistency: Always maintain the correction format and offer helpful tips that address the user's individual mistakes.
+
+          6. Encourage the user: Maintain a positive and encouraging tone throughout the conversation.
+
+          7. Context Retention: Use previous conversations and corrections to provide personalized learning advice. Do not repeat information and focus on new learning opportunities. 
+
           """
+          # context = f"""
+          # You are a professional language learning coach. 
+          # The user is learning {learning_language} and their profiency level is {proficiency_level}, 
+
+          # Respond in {learning_language} and provide corrections in {native_language} when they make a mistake.
+          # Switch to {native_language} if the user is struggling to understand.
+          # Keep responses natural and conversational. Your goal is ensure the user learns their {learning_language}.
+          # """
 
           # Format your responses:
           #   - Use **bold** for words being taught/explained
