@@ -23,6 +23,8 @@ database_service = Databases(client)
 # Database Configuration
 DATABASE_ID = os.getenv('APPWRITE_DATABASE_ID')
 PROFILES_COLLECTION_ID = os.getenv('APPWRITE_PROFILES_COLLECTION_ID')
+
+CONVERSATION_COLLECTION_ID=os.getenv('CONVERSATION_COLLECTION_ID')
   
 def get_user_profile(user_id):
     try:

@@ -110,11 +110,6 @@ def logout_view(request):
     return redirect('login')
 
 
-def home_view(request):
-    # template_name = 'core/home.html'
-    template_name = 'chats/conversation.html'
-    return render(request, template_name)
-
 
 # Profile SetUp view
 
