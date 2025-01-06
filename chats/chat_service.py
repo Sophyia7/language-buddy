@@ -14,7 +14,6 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 class ChatService:
     def __init__(self):
         genai.configure(api_key=GEMINI_API_KEY)
-        print(GEMINI_API_KEY)
 
         # Initialize model 
         self.model = genai.GenerativeModel(
@@ -62,21 +61,6 @@ class ChatService:
           7. Context Retention: Use previous conversations and corrections to provide personalized learning advice. Do not repeat information and focus on new learning opportunities. 
 
           """
-          # context = f"""
-          # You are a professional language learning coach. 
-          # The user is learning {learning_language} and their profiency level is {proficiency_level}, 
-
-          # Respond in {learning_language} and provide corrections in {native_language} when they make a mistake.
-          # Switch to {native_language} if the user is struggling to understand.
-          # Keep responses natural and conversational. Your goal is ensure the user learns their {learning_language}.
-          # """
-
-          # Format your responses:
-          #   - Use **bold** for words being taught/explained
-          #   - Use > for example sentences
-          #   - Use --- to separate explanations in {native_language}
-          #   - Use bullet points for multiple examples
-          #   - Use tables for conjugations if needed
 
           self.chat = self.model.start_chat(history=[])
           response = self.chat.send_message(context)
