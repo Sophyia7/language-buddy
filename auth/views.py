@@ -35,7 +35,7 @@ def register_user(requests):
               # Store user data in session for profile setup
               requests.session['user_id'] = response['$id']
               requests.session['email'] = form.cleaned_data['email']
-              request.session['username'] = form.cleaned_data['username']  # Store username
+              requests.session['username'] = form.cleaned_data['username']  # Store username
 
               messages.success(requests, 'Registration successful!')
             #   return redirect('login')
@@ -160,10 +160,10 @@ def profile_setup_view(request):
                 )
   
 
-                print(f"Session data: {session_data}")
-                print(f"Profile created: {result}")  # Debug logging
+                # print(f"Session data: {session_data}")
+                # print(f"Profile created: {result}")  # Debug logging
                 messages.success(request, 'Profile created successfully!')
-                return redirect('home')
+                return redirect('chats:chat')
 
             except Exception as e:
                 print(f"Error creating profile: {str(e)}")  # Debug logging
