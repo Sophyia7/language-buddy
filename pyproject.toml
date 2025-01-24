@@ -20,6 +20,9 @@ markdown = "^3.7"
 python-dateutil = "^2.9.0.post0"
 
 
+[tool.poetry.group.production.dependencies]
+gunicorn = "^23.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
