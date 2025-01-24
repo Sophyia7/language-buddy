@@ -1,31 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 <head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <div class="flex h-screen overflow-hidden">
-    <!-- Sidebar -->
-    <div class="w-64 bg-white border-r flex flex-col">
-        <!-- Sidebar Header -->
-        <div class="p-4 border-b">
-            <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold">Conversations</h2>
-                <button class="p-2 hover:bg-gray-100 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Conversation List -->
-        <div class="flex-1 overflow-y-auto" id="conversation-list">
-            <!-- Conversations will be populated dynamically -->
-        </div>
-    </div>
-
     <!-- Chat Area -->
     <div class="flex-1 flex flex-col bg-gray-50">
         <!-- Messages Container -->
@@ -58,17 +41,6 @@
 const chatForm = document.querySelector('#chat-form');
 const messagesContainer = document.querySelector('#messages-container');
 const messageInput = document.querySelector('#message-input');
-
-// const response = await fetch('/chat/new/', {
-//     method: 'POST',
-//     headers: {
-//         'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-//         'Content-Type': 'application/x-www-form-urlencoded',
-//     },
-//     body: new URLSearchParams({
-//         'message': message
-//     })
-// });
 
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
