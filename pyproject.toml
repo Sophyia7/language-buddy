@@ -17,6 +17,7 @@ requests = "^2.32.3"
 python-dotenv = "^1.0.1"
 google-generativeai = "^0.8.3"
 markdown = "^3.7"
+python-dateutil = "^2.9.0.post0"
 
 
 [build-system]
