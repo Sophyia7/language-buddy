@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout 
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 import requests
 import re
 from datetime import datetime
+from dateutil import parser
 
 from auth.forms import SignUpForm, LoginForm, UserProfileForm
 from auth.appwrite_config import account_service, database_service, DATABASE_ID, PROFILES_COLLECTION_ID
@@ -71,6 +73,21 @@ def login_view(request):
                 request.session['jwt'] = session.get('$id')  # Changed from session['jwt']
                 request.session['user_id'] = session.get('userId')
                 request.session['email'] = form.cleaned_data['email']
+
+                # Set cookie session
+                response = JsonResponse({"success": True})
+                expiry_date_str = session['expire']
+                expiry_date = parser.isoparse(expiry_date_str)  
+                expiry_timestamp = int(expiry_date.timestamp())
+                response.set_cookie(
+                    'session',
+                    session['secret'],  # Use the session secret as the cookie value
+                    httponly=True,
+                    secure=True,
+                    samesite='Strict',
+                    expires=expiry_timestamp,
+                    path='/'
+                )
                 
                 messages.success(request, 'Login successful!')
                 return redirect('chats:chat')
@@ -84,7 +101,7 @@ def login_view(request):
 
 
 # Logout
-# @login_required
+@login_required
 def logout_view(request):
     try:
         # Get user session data
