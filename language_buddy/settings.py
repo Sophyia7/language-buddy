@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
@@ -55,11 +55,11 @@ INSTALLED_APPS = [
 
 TAILWIND_APP_NAME = 'theme'
 
-# AUTH_USER_MODEL = 'auth.User'  # Use default Django User model
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
