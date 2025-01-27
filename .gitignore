@@ -35,7 +35,7 @@ env/
 
 
 # Static files
-staticfiles/
+# staticfiles/
 
 # Tailwind CSS
 node_modules/
