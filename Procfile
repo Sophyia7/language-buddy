@@ -1,1 +1,1 @@
-web: gunicorn language_buddy.wsgi
+web: gunicorn language_buddy.wsgi:application
