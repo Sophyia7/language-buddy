@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages 
 import requests
@@ -35,7 +35,6 @@ async def conversation_view(request):
                 PROFILES_COLLECTION_ID,
                 [Query.equal("user_id", request.session['user_id'])]
             )
-
 
             # Get user profile from appwrite
             user_profile = profile['documents'][0]
