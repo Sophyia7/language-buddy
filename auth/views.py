@@ -73,6 +73,18 @@ def login_view(request):
                 request.session['user_id'] = session.get('userId')
                 request.session['email'] = form.cleaned_data['email']
 
+
+                # Check for user's profile
+                if not database_service.list_documents(
+                    DATABASE_ID,
+                    PROFILES_COLLECTION_ID,
+                    [
+                        Query.equal("user_id", request.session['user_id'])  # Query filter
+                    ]
+                )['total']:
+                    messages.warning(request, 'Please set up your profile!')
+                    return redirect('profile_setup')
+
                 # Set cookie session
                 response = JsonResponse({"success": True})
                 expiry_date_str = session['expire']
