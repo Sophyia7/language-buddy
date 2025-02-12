@@ -2,13 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.utils.http import urlencode
+from django.urls import reverse
+from urllib.parse import parse_qs, urlparse
 import requests
 import re
 from datetime import datetime
 from dateutil import parser
 
-from auth.forms import SignUpForm, LoginForm, UserProfileForm
-from auth.appwrite_config import account_service, database_service, DATABASE_ID, PROFILES_COLLECTION_ID
+from auth.forms import SignUpForm, LoginForm, UserProfileForm, ForgotPasswordForm, ResetPasswordForm
+from auth.appwrite_config import account_service, database_service, DATABASE_ID, PROFILES_COLLECTION_ID, users_service
 # from auth.models import UserProfile
 
 
@@ -112,7 +115,7 @@ def login_view(request):
 
 
 # Logout
-@login_required
+# @login_required
 def logout_view(request):
     try:
         # Get user session data
@@ -200,3 +203,56 @@ def profile_setup_view(request):
         form = UserProfileForm()
     
     return render(request, 'auth/profile_setup.html', {'form': form})
+
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            try:
+                app_url = os.getenv('APP_URL')
+                recovery_url = f'http://{app_url}/auth/reset-password/'
+                account_service.create_recovery(
+                    email=form.cleaned_data['email'],
+                    url=recovery_url
+                )
+                messages.success(request, 'If the email exists, a reset link will be sent.')
+                return redirect('login')
+            except Exception as e:
+                messages.error(request, 'Unable to process request.')
+    else:
+        form = ForgotPasswordForm()
+    return render(request, 'auth/forgot_password.html', {'form': form})
+
+
+def reset_password_view(request):
+    user_id = request.GET.get('userId')
+    secret = request.GET.get('secret')
+    expire = request.GET.get('expire')
+
+    if not user_id or not secret or not expire:
+        messages.error(request, 'Invalid reset link.')
+        return redirect('forgot_password')
+
+
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+
+            if password != confirm_password:
+                messages.error(request, 'Passwords do not match.')
+                return render(request, 'auth/reset_password.html', {'form': form})
+
+            try:
+                # Update the user's password
+                users_service.update_password(user_id, password)
+                messages.success(request, 'Password has been reset successfully!')
+                return redirect('login')
+            except Exception as e:
+                messages.error(request, str(e))
+    
+    else:
+        form = ResetPasswordForm()
+    return render(request, 'auth/reset_password.html', {'form': form})
