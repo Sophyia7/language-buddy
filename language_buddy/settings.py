@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ["localhost:8000", ".onrender.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", ".onrender.com", "127.0.0.1"]
 
 
 # Application definition
