@@ -254,7 +254,7 @@ def forgot_password_view(request):
         if form.is_valid():
             try:
                 app_url = os.getenv('APP_URL')
-                recovery_url = f'http://{app_url}/auth/reset-password/'
+                recovery_url = f'{app_url}/auth/reset-password/'
                 account_service.create_recovery(
                     email=form.cleaned_data['email'],
                     url=recovery_url
