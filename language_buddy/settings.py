@@ -49,8 +49,6 @@ INSTALLED_APPS = [
 
     'chats',
 
-    # 'auth.models.UserProfile',
-
     
 ]
 
