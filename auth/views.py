@@ -204,6 +204,49 @@ def profile_setup_view(request):
     
     return render(request, 'auth/profile_setup.html', {'form': form})
 
+def profile_update_view(request):
+    try:
+        # Get user's current profile
+        profile = database_service.list_documents(
+            DATABASE_ID,
+            PROFILES_COLLECTION_ID,
+            [Query.equal("user_id", request.session['user_id'])]
+        )['documents'][0]
+        
+        if request.method == 'POST':
+            form = UserProfileForm(request.POST)
+            if form.is_valid():
+                try:
+                    # Update profile in Appwrite
+                    database_service.update_document(
+                        DATABASE_ID,
+                        PROFILES_COLLECTION_ID,
+                        profile['$id'],
+                        {
+                            'native_language': form.cleaned_data['native_language'],
+                            'learning_language': form.cleaned_data['learning_language'],
+                            'proficiency_level': form.cleaned_data['proficiency_level'],
+                        }
+                    )
+                    messages.success(request, 'Profile updated successfully!')
+                    return render(request, 'auth/profile_update.html', {
+                        'form': form,
+                    })
+                except Exception as e:
+                    messages.error(request, str(e))
+        else:
+            # Pre-fill form with current profile data
+            form = UserProfileForm(initial={
+                'native_language': profile['native_language'],
+                'learning_language': profile['learning_language'],
+                'proficiency_level': profile['proficiency_level'],
+            })
+        
+        return render(request, 'auth/profile_update.html', {'form': form})
+    except Exception as e:
+        messages.error(request, 'Error loading profile')
+        return redirect('profile_setup')
+
 
 def forgot_password_view(request):
     if request.method == 'POST':
