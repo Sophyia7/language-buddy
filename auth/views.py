@@ -254,7 +254,7 @@ def forgot_password_view(request):
         if form.is_valid():
             try:
                 app_url = os.getenv('APP_URL')
-                recovery_url = f'{app_url}/auth/reset-password/'
+                recovery_url = f"https://{app_url}/auth/reset-password/"
                 account_service.create_recovery(
                     email=form.cleaned_data['email'],
                     url=recovery_url
@@ -262,7 +262,7 @@ def forgot_password_view(request):
                 messages.success(request, 'If the email exists, a reset link will be sent.')
                 return redirect('login')
             except Exception as e:
-                messages.error(request, 'Unable to process request.')
+                messages.error(request, str(e), 'Unable to process request.')
     else:
         form = ForgotPasswordForm()
     return render(request, 'auth/forgot_password.html', {'form': form})
